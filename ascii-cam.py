@@ -20,6 +20,8 @@ eg. x x x x x
 5. "move camera" - will need curses
     read arrow keys to pan
     plus minus to zoom
+
+6. resizeterm()
 '''
 
 
@@ -43,11 +45,12 @@ def greyscale_to_ascii(img: np.ndarray, scale):
     return scale[(img / 255 * (len(scale) - 1)).astype(int)]
 
 
-def image_to_ascii(img: np.ndarray, width=100, scale=SCALE_10, delimiter=''):
+def image_to_ascii(img: np.ndarray, width=100, height=None, scale=SCALE_10, delimiter=''):
     # takes a greyscale image and converts to an ascii image
     h1, w1 = img.shape
     aspect_ratio = h1 / w1
-    height = int(aspect_ratio * width)
+    if not height:
+        height = int(aspect_ratio * width)
 
     # resize the image
     # always use AREA for shrinking image and LINEAR/CUBIC for enlarging
@@ -154,7 +157,7 @@ def cursecam(stdscr):
     # arbitrary - use the terminal height and width instead
     # height, width = min(max_y, 108//2), min(max_x, 192//2)
     # height, width = 30, 60
-    width = max_x//2 - 20
+    width = max_x // 2  # since space delimiter is half the string
 
     if video.isOpened():  # try to get the first frame
         # frams are np.ndarray | height, width, channels - (1080, 1920, 3)
@@ -167,13 +170,14 @@ def cursecam(stdscr):
         img = greyscale(flip(frame))
 
         # generate ascii art
-        art = image_to_ascii(img, width, scale=SCALE_66, delimiter=' ')
+        art = image_to_ascii(img, width, scale=SCALE_66,
+                             height=max_y, delimiter=' ')
 
         # Clear the window and add the ASCII art
         stdscr.clear()
         for i, line in enumerate(art.split('\n')):
-            stdscr.addstr(i, 0, f'{i:02} | {line} | {max_x} {max_y}')
-            # stdscr.addstr(i, 0, str(i))
+            stdscr.addstr(i, 0, line)
+
         stdscr.refresh()
 
         rval, frame = video.read()  # update frame and availability
