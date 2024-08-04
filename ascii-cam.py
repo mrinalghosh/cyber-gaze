@@ -5,7 +5,7 @@ import time
 
 '''
 TODO: 
-1. try hex tiling
+1. try hex tiling?
 eg. x x x x x
      x x x x x
 
@@ -14,7 +14,7 @@ eg. x x x x x
 3. colors! 
     just need to send each channel in separately and have some kind of color grading system
 
-4. normalization
+4. normalization/thresholding
     bring down entire intensity by a certain offset to maximize the contrast
 
 5. "move camera" - will need curses
@@ -29,6 +29,9 @@ eg. x x x x x
 SCALE_66 = '$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\\|()1{}[]?-_+~i!lI;:,"^` '[::-1]
 SCALE_29 = '@#W$9876543210?!abc;:+=-,._  '[::-1]
 SCALE_10 = "@%#*+=-:. "[::-1]
+# SCALE_UNICODE = "🔵🟤🟣🟢🟡🟠🔴⚫⚪●◉⬤⦿⬤❍◯○◌⓪①②③④⑤⑥⑦⑧⑨⑩⓵⓶⓷⓸⓹⓺⓻⓼⓽⓾"
+# SCALE_UNICODE = "⬤●◉⚫⚪⦿◯○❍◌"[::-1]
+SCALE_UNICODE = "⬤●◉◕⚫◍◐◑◒◓◔❍⦿⚪◯○◌■◼◾▮▧▦▩▨▥▤▣▢◽▫◻□▯"[::-1]
 BYTESIZE = 255
 CHANNELS = 3
 
@@ -193,8 +196,8 @@ def get_dimensions(stdscr):
 
 
 if __name__ == '__main__':
-    # webcam(50, scale=SCALE_10)
-    curses.wrapper(cursecam)
+    webcam(80, scale=SCALE_UNICODE)
+    # curses.wrapper(cursecam)
     # print('x')
     # curses.wrapper(get_dimensions)
     # print('y')
