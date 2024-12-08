@@ -22,6 +22,8 @@ eg. x x x x x
     plus minus to zoom
 
 6. resizeterm()
+
+7. use sockets to make this a multi-user chat app
 '''
 
 
@@ -119,7 +121,7 @@ def webcam(width=128, scale=SCALE_29):
     '''
     displays greyscale video and ascii art in standard scrolling terminal output
     '''
-    cv2.namedWindow("stream")
+    # cv2.namedWindow("stream")
     vc = cv2.VideoCapture(0)
 
     if vc.isOpened():  # try to get the first frame
@@ -131,7 +133,7 @@ def webcam(width=128, scale=SCALE_29):
     while rval:
         frame = flip(frame)
         # cv2.imshow("stream", frame)
-        cv2.imshow("stream", greyscale(frame))
+        # cv2.imshow("stream", greyscale(frame))
         # cv2.imshow("stream", color(frame))
 
         print(image_to_ascii(greyscale(frame),
@@ -196,7 +198,7 @@ def get_dimensions(stdscr):
 
 
 if __name__ == '__main__':
-    webcam(80, scale=SCALE_UNICODE)
+    webcam(80, scale=SCALE_66)
     # curses.wrapper(cursecam)
     # print('x')
     # curses.wrapper(get_dimensions)
